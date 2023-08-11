@@ -50,12 +50,11 @@ window.onload = function () {
       let seanceTime = response.seances.result[i].seance_time;
       timeBlock[i].textContent = seanceTime;
     }
-    let posterImages = document.querySelectorAll(".movie__poster-image");
 
     for (let i = 0; i < response.films.result.length; i++) {
       let filmPoster = response.films.result[i].film_poster;
-      if (posterImages[i]) {
-        posterImages[i].src = filmPoster;
+      if (posterImage[i]) {
+        posterImage[i].src = filmPoster;
       }
     }
     for (let i = 0; i < response.films.result.length; i++) {
@@ -65,24 +64,23 @@ window.onload = function () {
       }
     }
     for (let i = 0; i < response.films.result.length; i++) {
-        let filmDescriptoin = response.films.result[i].film_description;
-        if (movieTitle[i]) {
-            movieSynopsis[i].textContent = filmDescriptoin;
-        }
+      let filmDescriptoin = response.films.result[i].film_description;
+      if (movieSynopsis[i]) {
+        movieSynopsis[i].textContent = filmDescriptoin;
       }
-      for (let i = 0; i < response.films.result.length; i++) {
-        let filmDuration = response.films.result[i].film_duration;
-        if (movieTitle[i]) {
-            duration[i].textContent = `${filmDuration + ' минут'}`;
-        }
+    }
+    for (let i = 0; i < response.films.result.length; i++) {
+      let filmDuration = response.films.result[i].film_duration;
+      if (duration[i]) {
+        duration[i].textContent = `${filmDuration + " минут"}`;
       }
-      for (let i = 0; i < response.films.result.length; i++) {
-        let filmOrigin = response.films.result[i].film_origin;
-        if (movieTitle[i]) {
-            movie_origin[i].textContent = filmOrigin;
-        }
+    }
+    for (let i = 0; i < response.films.result.length; i++) {
+      let filmOrigin = response.films.result[i].film_origin;
+      if (movie_origin[i]) {
+        movie_origin[i].textContent = filmOrigin;
       }
-      
+    }
   });
 };
 
