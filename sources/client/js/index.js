@@ -1,7 +1,5 @@
 document.addEventListener("DOMContentLoaded", function () {
   let datesNumber = document.querySelectorAll(".page-nav__day-number");
-  const days = ["Пн", "Вт", "Ср", "Чт", "Пт", "Сб", "Вс"];
-  let dateWeek = document.querySelectorAll(".page-nav__day-week");
   let date = new Date();
 
   datesNumber.forEach((element, index) => {
@@ -22,17 +20,26 @@ document.addEventListener("DOMContentLoaded", function () {
 
 const page_nav_date = document.querySelectorAll(".page-nav__day");
 
-page_nav_date.forEach((element) => {
-  element.addEventListener("click", () => {
-    page_nav_date.forEach((otherElement) => {
-      otherElement.classList.remove("page-nav__day_chosen");
-    });
-    element.classList.add("page-nav__day_chosen");
+window.addEventListener("load", function() {
+  applyStylesToTimeBlocks();
 
-    const requestBody = "event=update";
-    sendRequest(requestBody, (response) => {
-      console.log("Server response:", response);
-      // Дополнительные действия с ответом от сервера
+  page_nav_date.forEach((element) => {
+    element.addEventListener("click", () => {
+      page_nav_date.forEach((otherElement) => {
+        otherElement.classList.remove("page-nav__day_chosen");
+      });
+      element.classList.add("page-nav__day_chosen");
+
+      if (!element.classList.contains("page-nav_today")) {
+       resetTimeBlocks();
+      } else {
+        applyStylesToTimeBlocks(); 
+      }
+
+      const requestBody = "event=update";
+      sendRequest(requestBody, (response) => {
+        console.log("Server response:", response);
+      });
     });
   });
 });
@@ -82,6 +89,17 @@ window.onload = function () {
       }
     }
   });
+  var dateDay = document.querySelectorAll('.page-nav__day-week');
+  let currentDate = new Date();
+  
+  const abbreviatedDaysOfWeek = ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'];
+  
+  dateDay.forEach((element) => {
+    let date = new Date(currentDate); // Создаем новый объект Date для каждого элемента
+    let dateHours = date.getDay(); // Получаем номер дня недели
+    element.textContent = abbreviatedDaysOfWeek[dateHours]; // Устанавливаем аббревиатуру дня недели
+    currentDate.setDate(currentDate.getDate() + 1); // Переходим к следующему дню
+  });
 };
 
 timeBlock.forEach((element) => {
@@ -90,3 +108,31 @@ timeBlock.forEach((element) => {
     localStorage.setItem("time", time);
   });
 });
+
+
+function applyStylesToTimeBlocks() {
+  timeBlock.forEach((element) => {
+    let date = new Date();
+    let dateTime = date.getTime();
+    let elementTime = new Date(date.toDateString() + ' ' + element.textContent);
+
+    if (elementTime < dateTime) {
+      element.classList.add('closed');
+      element.setAttribute('href', '#');
+      element.setAttribute('disabled', 'true');
+    }
+  });
+}
+
+function resetTimeBlocks() {
+  timeBlock.forEach((element) => {
+    let date = new Date();
+    let dateTime = date.getTime();
+    let elementTime = new Date(date.toDateString() + ' ' + element.textContent);
+
+    if (elementTime < dateTime) {
+    element.classList.remove('closed');
+    element.removeAttribute('disabled');
+    element.setAttribute('href', 'hall.html');
+  }})
+};
