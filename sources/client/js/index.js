@@ -34,7 +34,7 @@ window.addEventListener("load", function() {
 
       if (!element.classList.contains("page-nav_today")) {
         resetTimeBlocks();
-        applyStylesActive = false; // Сбрасываем состояние при переключении на другую страницу
+        applyStylesActive = false;
       }
       if (element === page_nav_date[0] && !applyStylesActive) {
         applyStylesToTimeBlocks();
@@ -78,6 +78,7 @@ window.onload = function () {
       let filmName = response.films.result[i].film_name;
       if (movieTitle[i]) {
         movieTitle[i].textContent = filmName;
+        movieTitle[i].setAttribute("data-name", filmName);
       }
       let filmDescription = response.films.result[i].film_description;
       if (movieSynopsis[i]) {
@@ -95,15 +96,16 @@ window.onload = function () {
   });
 }
 
-timeBlock.forEach((element, index) => {
+timeBlock.forEach((element) => {
   element.addEventListener("click", () => {
     let time = element.textContent;
     localStorage.setItem("time", time);
-    
-      let name = movieTitle[index].textContent;
+
+      let name = element.getAttribute("data-name");
       localStorage.setItem('name', name);
   });
 });
+
 function applyStylesToTimeBlocks() {
   timeBlock.forEach((element) => {
     let date = new Date();
