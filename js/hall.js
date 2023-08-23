@@ -77,4 +77,4 @@ createRequest('POST', 'https://jscp-diplom.netoserver.ru/', `event=get_hallConfi
         window.location.href = "payment.html";
     });
 
-});2
+});

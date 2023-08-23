@@ -66,7 +66,7 @@ document.addEventListener("DOMContentLoaded", () => {
                <h2 class="movie__title">${film.film_name}</h2>
                <p class="movie__synopsis">${film.film_description}</p>
                <p class="movie__data">
-                 <span class="movie__data-duration">${film.film_duration + " мин"}</span>
+                 <span class="movie__data-duration">${film.film_duration}</span>
                  <span class="movie__data-origin">${film.film_origin}</span>
                </p>
              </div>
