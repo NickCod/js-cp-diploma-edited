@@ -9,7 +9,7 @@ ticketHall.innerText = `${parsedselectedChairs.hallName}`;
 let seanceDate = new Date(+`${parsedselectedChairs.seanceTimeStamp * 1000}`);
 
 let ticketStart = document.querySelector('.ticket__start');
-ticketStart.innerText = `${parsedselectedChairs.seanceTime},`;
+ticketStart.innerText = `${parsedselectedChairs.seanceTime}`;
 
 let places = parsedselectedChairs.selectedPlaces;
 let takenChairs = places.map(place => `${place.row}/${place.place}`).join(', ');
