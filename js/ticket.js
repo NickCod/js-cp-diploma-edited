@@ -14,24 +14,26 @@ document.addEventListener('DOMContentLoaded', function(){
     hallId.textContent = parsedselectedChairs.hallName;
     ticketTime.textContent = parsedselectedChairs.seanceTime;
     chairs.textContent = parsedselectedChairs.takenChairs;
-  
-    let qr = new QRCode(document.getElementById('qr')); 
-    let savedQRCode = localStorage.getItem('savedQRCode');
-  
-    if (savedQRCode) {
-      qr.makeCode(savedQRCode); 
-    } else {
-      generateAndSaveQRCode(); 
+});
+  const qrcode1 = QRCreator(
+    `На фильм: ${parsedselectedChairs.filmName},
+    Зал: ${parsedselectedChairs.hallName},
+    Ряд/Место: ${parsedselectedChairs.takenChairs},
+    Время: ${parsedselectedChairs.seanceTime}`,
+    {
+      mode: 4,
+      eccl: 0,
+      mask: -1,
+      image: 'html',
+      modsize: -1,
+      margin: 0
     }
-  });
-  
-  function generateAndSaveQRCode() {
-    let qrContent = generateQRCodeContent(); 
-    let qr = new QRCode(document.getElementById('qr')); 
-    qr.makeCode(qrContent); 
-    localStorage.setItem('savedQRCode', qrContent); 
-  }
-  function generateQRCodeContent() {
-    let qrContent = JSON.parse(`На фильм: ${parsedselectedChairs.filmName},Зал: ${parsedselectedChairs.hallName},Ряд/Место: ${parsedselectedChairs.takenChairs},Время: ${parsedselectedChairs.ticketTime}`);
-    return qrContent;
-  }; 
+  );
+
+const content = (qrcode) =>{
+  return qrcode.error ?
+    `недопустимые исходные данные ${qrcode.error}`:
+     qrcode.result;
+};
+
+document.getElementById('qr').append(content(qrcode1));
